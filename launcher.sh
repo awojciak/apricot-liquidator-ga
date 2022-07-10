@@ -1,12 +1,10 @@
 START_PAGE=${START_PAGE:-0}
 END_PAGE=${END_PAGE:-100}
 PAGES_PER_BOT=${PAGES_PER_BOT:-10}
-KEY_LOC=${KEY_LOC:-liquidator-key.json}
 
 echo "start page: $START_PAGE"
 echo "end page: $END_PAGE"
 echo "pages per bot: $PAGES_PER_BOT"
-echo "key location: $KEY_LOC"
 
 # If there's a missing process, restart it
 while true
@@ -19,7 +17,7 @@ do
         then
             # re-launch the script
             echo "Launching bot starting at $i"
-            node ./dist/index.js public $KEY_LOC $i $(($i + $PAGES_PER_BOT)) apricot_ept $SIG_STR | tee -a $SIG_STR.log &
+            node ./dist/index.js public $i $(($i + $PAGES_PER_BOT)) apricot_ept $SIG_STR | tee -a $SIG_STR.log &
             # sleep 30 seconds to avoid connection rush
             sleep 30
         fi

@@ -1,0 +1,27 @@
+name: liquidation schedule
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+    branches: [main]
+jobs:
+  liquidator:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Use Node 16.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+      - name: Install ts
+        run: npm install -g typescript ts-node
+      - name: Install Dependencies
+        run: npm i
+      - name: build liquidator
+        run: npm run buils
+      - name: run liquidator
+        run: node dist/index.js public 0 0
+        env:
+          PRIV_KEY: ${{ secrets.PRIV_KEY }}

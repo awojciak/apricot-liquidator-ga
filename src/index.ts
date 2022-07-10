@@ -39,6 +39,7 @@ import * as swappers from '@apricot-lend/solana-swaps-js';
 import { ASSOCIATED_TOKEN_PROGRAM_ID, Token, TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { initializeApp } from '@firebase/app';
 import { getFirestore } from '@firebase/firestore';
+import bs58 from 'bs58';
 
 const CONFIG_FILE_NAME = 'liquidator_config.json';
 
@@ -77,7 +78,7 @@ export const TOK_ID_TRANSLATE = {
   [TokenID.scnSOL]: swappers.TokenID.scnSOL,
 }
 
-const [, , alphaStr, keyLocation, pageStart, pageEnd, endpoint] = process.argv;
+const [, , alphaStr, pageStart, pageEnd, endpoint] = process.argv;
 
 if (alphaStr !== 'alpha' && alphaStr !== 'public') {
   throw new Error('alphaStr should be either alpha or public');
@@ -107,9 +108,7 @@ const actionTimedLogger = fs.createWriteStream(`./liquidator.actions.${pageStart
 const config = alphaStr === 'alpha' ? ALPHA_CONFIG : PUBLIC_CONFIG;
 assert(config !== null);
 const addresses = new Addresses(config);
-const keyStr = fs.readFileSync(keyLocation, 'utf8');
-const privateKey = JSON.parse(keyStr);
-const assistKeypair = Keypair.fromSecretKey(new Uint8Array(privateKey));
+const assistKeypair = Keypair.fromSecretKey(bs58.decode(process.env.PRIV_KEY));
 
 const configContent = fs.readFileSync(CONFIG_FILE_NAME, {encoding: 'utf-8'});
 const liquidatorConfig = JSON.parse(configContent);
@@ -234,8 +233,7 @@ export class LiquidatorBot {
   async start() {
     // arm shutdown timer
     async function shutdownTimer() {
-      const shutdownMinutes = 15 + Math.random() * 20;
-      await sleep(shutdownMinutes * 60 * 1000);
+      await sleep(15 * 60 * 1000);
       process.exit();
     }
     shutdownTimer();
