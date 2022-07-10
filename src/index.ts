@@ -232,7 +232,7 @@ export class LiquidatorBot {
   async start() {
     // arm shutdown timer
     async function shutdownTimer() {
-      await sleep(15 * 60 * 1000);
+      await sleep(20 * 60 * 1000);
       process.exit();
     }
     shutdownTimer();
