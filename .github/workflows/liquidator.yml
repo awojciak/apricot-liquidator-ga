@@ -2,7 +2,7 @@ name: liquidation schedule
 
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '*/30 * * * *'
   workflow_dispatch:
     branches: [main]
 jobs:
