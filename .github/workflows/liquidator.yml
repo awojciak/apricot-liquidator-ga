@@ -24,4 +24,4 @@ jobs:
       - name: run liquidator
         run: |
           export PRIV_KEY=${{ secrets.PRIV_KEY }}
-          node dist/index.js public 0 0 GenesysGo
+          node dist/index.js public 0 0

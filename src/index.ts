@@ -9,7 +9,6 @@ import {
   Addresses,
   ALPHA_CONFIG,
   assert,
-  getRPCConnection,
   LIQUIDATION_LIMIT,
   LogError,
   LogInfo,
@@ -78,7 +77,7 @@ export const TOK_ID_TRANSLATE = {
   [TokenID.scnSOL]: swappers.TokenID.scnSOL,
 }
 
-const [, , alphaStr, pageStart, pageEnd, endpoint] = process.argv;
+const [, , alphaStr, pageStart, pageEnd] = process.argv;
 
 if (alphaStr !== 'alpha' && alphaStr !== 'public') {
   throw new Error('alphaStr should be either alpha or public');
@@ -305,7 +304,7 @@ export class LiquidatorBot {
   }
 }
 
-const connection = getRPCConnection(endpoint, 'confirmed');
+const connection = new Connection("https://ssc-dao.genesysgo.net", "confirmed");
 const throttler = new Throttler(5);
 const bot = new LiquidatorBot(
   addresses,
