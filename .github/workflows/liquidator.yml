@@ -20,7 +20,7 @@ jobs:
       - name: Install Dependencies
         run: npm i
       - name: build liquidator
-        run: npm run buils
+        run: npm run build
       - name: run liquidator
         run: node dist/index.js public 0 0
         env:
