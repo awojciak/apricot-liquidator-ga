@@ -1,5 +1,5 @@
 {
-    "maxLiquidationSize": 340,
+    "maxLiquidationSize": 240,
     "maxTradeSlippage": 0.02,
     "clearResidual": true
 }
